@@ -2,18 +2,14 @@ package com.project.ecommerce.dto;
 
 public class AuthResponse {
     private String token;
-    private UserResponse user;
-
-    // Constructors
+    private UserDTO user;
 
     public AuthResponse() {}
 
-    public AuthResponse(String token, UserResponse user) {
+    public AuthResponse(String token, UserDTO user) {
         this.token = token;
         this.user = user;
     }
-
-    // Getters and Setters
 
     public String getToken() {
         return token;
@@ -23,11 +19,11 @@ public class AuthResponse {
         this.token = token;
     }
 
-    public UserResponse getUser() {
+    public UserDTO getUser() {
         return user;
     }
 
-    public void setUser(UserResponse user) {
+    public void setUser(UserDTO user) {
         this.user = user;
     }
 }

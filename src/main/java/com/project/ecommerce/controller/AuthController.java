@@ -4,13 +4,10 @@ import com.project.ecommerce.dto.AuthResponse;
 import com.project.ecommerce.dto.LoginRequest;
 import com.project.ecommerce.dto.RegisterRequest;
 import com.project.ecommerce.service.AuthService;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -20,31 +17,39 @@ public class AuthController {
     @Autowired
     private AuthService authService;
 
-    @PostMapping("/register")
-    public ResponseEntity<?> register(@Valid @RequestBody RegisterRequest registerRequest) {
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
         try {
-            authService.register(registerRequest);
-
-            Map<String, String> response = new HashMap<>();
-            response.put("message", "Conta criada com sucesso! Agora faça login.");
-
+            AuthResponse response = authService.login(loginRequest);
+            System.out.println("Login bem-sucedido para: " + loginRequest.getEmail());
             return ResponseEntity.ok(response);
-        } catch (RuntimeException e) {
-            Map<String, String> error = new HashMap<>();
-            error.put("error", e.getMessage());
-            return ResponseEntity.badRequest().body(error);
+        } catch (Exception e) {
+            System.err.println("Erro no login: " + e.getMessage());
+            return ResponseEntity.badRequest().body("Erro: " + e.getMessage());
         }
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@Valid @RequestBody LoginRequest loginRequest) {
+    @PostMapping("/login-admin")
+    public ResponseEntity<?> loginAdmin(@RequestBody LoginRequest loginRequest) {
         try {
-            AuthResponse authResponse = authService.login(loginRequest);
-            return ResponseEntity.ok(authResponse);
-        } catch (RuntimeException e) {
-            Map<String, String> error = new HashMap<>();
-            error.put("error", e.getMessage());
-            return ResponseEntity.badRequest().body(error);
+            AuthResponse response = authService.loginAdmin(loginRequest);
+            System.out.println("Login admin bem-sucedido para: " + loginRequest.getEmail());
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            System.err.println("Erro no login admin: " + e.getMessage());
+            return ResponseEntity.badRequest().body("Erro: " + e.getMessage());
+        }
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<?> register(@RequestBody RegisterRequest registerRequest) {
+        try {
+            authService.register(registerRequest);
+            System.out.println("Usuário registrado: " + registerRequest.getEmail());
+            return ResponseEntity.ok("Usuário registrado com sucesso");
+        } catch (Exception e) {
+            System.err.println("Erro no registro: " + e.getMessage());
+            return ResponseEntity.badRequest().body("Erro: " + e.getMessage());
         }
     }
 }

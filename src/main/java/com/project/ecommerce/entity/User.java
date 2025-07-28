@@ -25,14 +25,23 @@ public class User {
     @Size(min = 6, message = "Senha deve ter pelo menos 6 caracteres")
     private String password;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role = Role.CUSTOMER;
+
+    public enum Role {
+        CUSTOMER, ADMIN
+    }
+
     // Constructors
 
     public User() {}
 
-    public User(String name, String email, String password) {
+    public User(String name, String email, String password, Role role) {
         this.name = name;
         this.email = email;
         this.password = password;
+        this.role = role;
     }
 
     // Getters and Setters
@@ -67,5 +76,17 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public boolean isAdmin() {
+        return this.role == Role.ADMIN;
     }
 }
