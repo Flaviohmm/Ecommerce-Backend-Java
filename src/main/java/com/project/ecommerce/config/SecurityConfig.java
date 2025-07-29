@@ -14,7 +14,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.header.writers.ReferrerPolicyHeaderWriter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -44,20 +43,10 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        // Permitir origem específica do frontend
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:8080", "http://127.0.0.1:8080"));
-
-        // Métodos HTTP permitidos
+        configuration.setAllowedOrigins(List.of("http://localhost:3000")); // Use origens específicas
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
-
-        // Headers permitidos
-        configuration.setAllowedHeaders(List.of("*"));
-
-        // Permitir credentials (cookies, authorization headers)
+        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
         configuration.setAllowCredentials(true);
-
-        // Headers expostos ao frontend
-        configuration.setExposedHeaders(Arrays.asList("Authorization", "Content-Type"));
 
         // Tempo de cache para requisições OPTIONS (preflight)
         configuration.setMaxAge(3600L);

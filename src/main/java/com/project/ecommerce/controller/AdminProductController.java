@@ -1,7 +1,8 @@
-package com.project.ecommerce.service;
+package com.project.ecommerce.controller;
 
 import com.project.ecommerce.annotation.AdminOnly;
 import com.project.ecommerce.dto.ProductDTO;
+import com.project.ecommerce.service.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
